@@ -20,13 +20,14 @@ mod day1 {
       return current_floor;
   }
 
-  /*macro_rules! a_sample_tests {
+  macro_rules! a_sample_tests {
     ($($name:ident: $value:expr,)*) => {
     $(
       #[test]
-      fn a_$name() -> io::Result<()> {
-        let data = get_data(SAMPLE(Some("$name")))?;
-        assert_eq!(a(data), $value);
+      fn $name() -> io::Result<()> {
+        let (filename, expected) = $value;
+        let data = get_data(SAMPLE(Some(filename)))?;
+        assert_eq!(a(data), expected);
         Ok(())
       }
     )*
@@ -34,63 +35,15 @@ mod day1 {
   }
 
   a_sample_tests! {
-    sample1: 0,
-    sample2: 0,
-    sample3: 3,
-  }*/
-
-  #[test]
-  fn a_sample4() -> io::Result<()> {
-      let data = get_data(SAMPLE(Some("sample4")))?;
-      let result = a(data);
-
-      assert_eq!(result, 3);
-      Ok(())
-  }
-
-  #[test]
-  fn a_sample5() -> io::Result<()> {
-      let data = get_data(SAMPLE(Some("sample5")))?;
-      let result = a(data);
-
-      assert_eq!(result, 3);
-      Ok(())
-  }
-
-  #[test]
-  fn a_sample6() -> io::Result<()> {
-      let data = get_data(SAMPLE(Some("sample6")))?;
-      let result = a(data);
-
-      assert_eq!(result, -1);
-      Ok(())
-  }
-
-  #[test]
-  fn a_sample7() -> io::Result<()> {
-      let data = get_data(SAMPLE(Some("sample7")))?;
-      let result = a(data);
-
-      assert_eq!(result, -1);
-      Ok(())
-  }
-
-  #[test]
-  fn a_sample8() -> io::Result<()> {
-      let data = get_data(SAMPLE(Some("sample8")))?;
-      let result = a(data);
-
-      assert_eq!(result, -3);
-      Ok(())
-  }
-
-  #[test]
-  fn a_sample9() -> io::Result<()> {
-      let data = get_data(SAMPLE(Some("sample9")))?;
-      let result = a(data);
-
-      assert_eq!(result, -3);
-      Ok(())
+    a_sample1: ("sample1", 0),
+    a_sample2: ("sample2", 0),
+    a_sample3: ("sample3", 3),
+    a_sample4: ("sample4", 3),
+    a_sample5: ("sample5", 3),
+    a_sample6: ("sample6", -1),
+    a_sample7: ("sample7", -1),
+    a_sample8: ("sample8", -3),
+    a_sample9: ("sample9", -3),
   }
 
   #[test]
