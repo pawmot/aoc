@@ -12,7 +12,7 @@ type ProblemNumber = (u16, u8);
 pub fn read_lines(
     problem_number: ProblemNumber,
     dataset_type: DatasetType,
-) -> io::Result<io::Lines<io::BufReader<File>>> {
+) -> io::Result<Vec<String>> {
     let path = match dataset_type {
         DatasetType::SAMPLE(filename) => {
             format!(
@@ -29,5 +29,6 @@ pub fn read_lines(
     };
 
     let file = File::open(path)?;
-    Ok(io::BufReader::new(file).lines())
+    let line_results = io::BufReader::new(file).lines();
+    line_results.into_iter().collect::<io::Result<Vec<_>>>()
 }

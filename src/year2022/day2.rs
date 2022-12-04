@@ -19,9 +19,7 @@ mod day2 {
         score_map.insert(('C', 'Y'), 2);
         score_map.insert(('C', 'Z'), 6);
 
-        data.into_iter()
-            .map(|p| score_map[&p])
-            .sum()
+        data.into_iter().map(|p| score_map[&p]).sum()
     }
 
     #[test]
@@ -52,9 +50,7 @@ mod day2 {
         score_map.insert(('C', 'Y'), 6);
         score_map.insert(('C', 'Z'), 7);
 
-        data.into_iter()
-            .map(|p| score_map[&p])
-            .sum()
+        data.into_iter().map(|p| score_map[&p]).sum()
     }
 
     #[test]
