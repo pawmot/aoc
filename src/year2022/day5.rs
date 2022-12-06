@@ -1,26 +1,28 @@
 #[cfg(test)]
-mod day4 {
+mod day5 {
     use std::io;
 
-    use crate::data::{
-        common::DatasetType::{FULL, SAMPLE},
-        year2022::day5::get_data,
+    use crate::{
+        data::{
+            common::DatasetType::{FULL, SAMPLE},
+            year2022::day5::get_data,
+        },
+        utils::borrow2_from_vec_mut,
     };
 
     fn a(data: (Vec<Vec<char>>, Vec<(u8, u8, u8)>)) -> String {
         let (mut stacks, moves) = data;
-        
+
         for m in moves {
             let (n, f, t) = m;
+            let f_idx = (f - 1) as usize;
+            let t_idx = (t - 1) as usize;
 
-            for _ in 0..n {
-                // TODO: fix this fugly code
-                let source = &mut stacks[(f-1) as usize];
-                let v = source.pop().unwrap();
-                drop(source);
-                let target = &mut stacks[(t-1) as usize];
-                target.push(v);
-            }
+            let (source, target) = borrow2_from_vec_mut(&mut stacks, f_idx, t_idx);
+            let source_cutoff_idx = source.len() - n as usize;
+
+            // drain returns a double-ended iter so it can be reversed cheaply
+            target.extend(source.drain(source_cutoff_idx..).rev());
         }
 
         stacks.into_iter().map(|mut s| s.pop().unwrap()).collect()
@@ -44,25 +46,16 @@ mod day4 {
 
     fn b(data: (Vec<Vec<char>>, Vec<(u8, u8, u8)>)) -> String {
         let (mut stacks, moves) = data;
-        
+
         for m in moves {
             let (n, f, t) = m;
+            let f_idx = (f - 1) as usize;
+            let t_idx = (t - 1) as usize;
 
-            let mut intermediate = vec![];
-            let source = &mut stacks[(f-1) as usize];
+            let (source, target) = borrow2_from_vec_mut(&mut stacks, f_idx, t_idx);
+            let source_cutoff_idx = source.len() - n as usize;
 
-            for _ in 0..n {
-                let v = source.pop().unwrap();
-                intermediate.push(v);
-            }
-
-            drop(source);
-            let target = &mut stacks[(t-1) as usize];
-
-            for _ in 0..n {
-                let v = intermediate.pop().unwrap();
-                target.push(v);
-            }
+            target.extend(source.drain(source_cutoff_idx..));
         }
 
         stacks.into_iter().map(|mut s| s.pop().unwrap()).collect()
