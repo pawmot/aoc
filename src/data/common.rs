@@ -2,7 +2,6 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 pub enum DatasetType<'a> {
-    #[allow(dead_code)]
     SAMPLE(Option<&'a str>),
     FULL,
 }
