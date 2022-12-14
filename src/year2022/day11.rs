@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod day10 {
+mod day11 {
     use std::io;
 
     use crate::data::{
