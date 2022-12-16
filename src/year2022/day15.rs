@@ -109,9 +109,6 @@ mod day15 {
 
     fn b(data: Vec<((i32, i32), (i32, i32))>, search_space_size: i32) -> u64 {
         for y in 0..=search_space_size {
-            if y % 4000 == 0 {
-                println!("{}% done", y as f32 / 40000.0)
-            }
             let ranges = data
                 .iter()
                 .copied()
@@ -166,7 +163,7 @@ mod day15 {
     fn b_full() -> Result<()> {
         let data = get_data(FULL)?;
 
-        assert_eq!(b(data, 4000000), 1003);
+        assert_eq!(b(data, 4000000), 11016575214126);
         Ok(())
     }
 }
