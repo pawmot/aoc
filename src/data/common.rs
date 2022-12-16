@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 use nom::bytes::complete::{tag, take_while1};
-use nom::combinator::map_res;
+use nom::combinator::{map_res, opt};
 use nom::IResult;
 
 pub enum DatasetType<'a> {
@@ -58,6 +58,17 @@ pub fn parse_u64(input: &str) -> IResult<&str, u64> {
 
 pub fn parse_usize(input: &str) -> IResult<&str, usize> {
     map_res(take_while1(is_digit), |i: &str| i.parse())(input)
+}
+
+pub fn parse_i32(input: &str) -> IResult<&str, i32> {
+    let (input, minus) = opt(tag("-"))(input)?;
+    let (input, abs) = map_res(take_while1(is_digit), |i: &str| i.parse::<i32>())(input)?;
+
+    if minus.is_some() {
+        Ok((input, -abs))
+    } else {
+        Ok((input, abs))
+    }
 }
 
 pub fn parse_new_line(input: &str) -> IResult<&str, &str> {
