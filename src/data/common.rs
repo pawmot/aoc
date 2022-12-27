@@ -36,10 +36,15 @@ pub fn read_lines(
     line_results.into_iter().collect::<io::Result<Vec<_>>>()
 }
 
-fn is_digit(ch: char) -> bool {
+pub fn is_letter(ch: char) -> bool {
+    ch.is_ascii_alphabetic()
+}
+
+pub fn is_digit(ch: char) -> bool {
     ch.is_ascii_digit()
 }
 
+// TODO: look into possibilities of making one polymorphic fn to cover all the number types
 pub fn parse_u8(input: &str) -> IResult<&str, u8> {
     map_res(take_while1(is_digit), |i: &str| i.parse())(input)
 }
@@ -60,9 +65,31 @@ pub fn parse_usize(input: &str) -> IResult<&str, usize> {
     map_res(take_while1(is_digit), |i: &str| i.parse())(input)
 }
 
+pub fn parse_i16(input: &str) -> IResult<&str, i16> {
+    let (input, minus) = opt(tag("-"))(input)?;
+    let (input, abs) = map_res(take_while1(is_digit), |i: &str| i.parse::<i16>())(input)?;
+
+    if minus.is_some() {
+        Ok((input, -abs))
+    } else {
+        Ok((input, abs))
+    }
+}
+
 pub fn parse_i32(input: &str) -> IResult<&str, i32> {
     let (input, minus) = opt(tag("-"))(input)?;
     let (input, abs) = map_res(take_while1(is_digit), |i: &str| i.parse::<i32>())(input)?;
+
+    if minus.is_some() {
+        Ok((input, -abs))
+    } else {
+        Ok((input, abs))
+    }
+}
+
+pub fn parse_i64(input: &str) -> IResult<&str, i64> {
+    let (input, minus) = opt(tag("-"))(input)?;
+    let (input, abs) = map_res(take_while1(is_digit), |i: &str| i.parse::<i64>())(input)?;
 
     if minus.is_some() {
         Ok((input, -abs))
