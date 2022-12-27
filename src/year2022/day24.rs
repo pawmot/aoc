@@ -47,14 +47,19 @@ mod day24 {
             .collect()
     }
 
-    fn solve(data: (HashSet<Blizzard>, (usize, usize)), start: (usize, usize), end: (usize, usize), from_step: usize) -> usize {
+    fn solve(
+        data: (HashSet<Blizzard>, (usize, usize)),
+        start: (usize, usize),
+        end: (usize, usize),
+        from_step: usize,
+    ) -> usize {
         let (mut blizzards, (h, w)) = data;
 
         let mut current_step = 0;
         let mut blizzards_positions: HashSet<(usize, usize)> =
             blizzards.iter().map(|(pos, _)| pos).copied().collect();
         let mut q: VecDeque<((usize, usize), usize)> = VecDeque::from([(start, from_step)]);
-        let period = lcm(h-2, w-2);
+        let period = lcm(h - 2, w - 2);
         let mut visited_states: HashSet<((usize, usize), usize)> = HashSet::new();
 
         while let Some((pos @ (r, c), step)) = q.pop_front() {
@@ -120,7 +125,7 @@ mod day24 {
     }
 
     fn a(data @ (_, (h, w)): (HashSet<Blizzard>, (usize, usize))) -> usize {
-        solve(data, (0, 1), (h-1, w-2), 1)
+        solve(data, (0, 1), (h - 1, w - 2), 1)
     }
 
     #[test]
@@ -140,9 +145,9 @@ mod day24 {
     }
 
     fn b(data @ (_, (h, w)): (HashSet<Blizzard>, (usize, usize))) -> usize {
-        let first_goal = solve(data.clone(), (0, 1), (h-1, w-2), 1);
-        let back_to_start = solve(data.clone(), (h-1, w-2), (0, 1), first_goal + 1);
-        let second_goal = solve(data, (0, 1), (h-1, w-2), back_to_start + 1);
+        let first_goal = solve(data.clone(), (0, 1), (h - 1, w - 2), 1);
+        let back_to_start = solve(data.clone(), (h - 1, w - 2), (0, 1), first_goal + 1);
+        let second_goal = solve(data, (0, 1), (h - 1, w - 2), back_to_start + 1);
         second_goal
     }
 

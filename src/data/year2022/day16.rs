@@ -1,8 +1,14 @@
 use anyhow::Result;
 
-use nom::{bytes::complete::{tag, take, take_while_m_n}, combinator::{all_consuming, opt}, multi::{many0, many1}, IResult, branch::alt};
+use nom::{
+    branch::alt,
+    bytes::complete::{tag, take, take_while_m_n},
+    combinator::{all_consuming, opt},
+    multi::{many0, many1},
+    IResult,
+};
 
-use crate::data::common::{parse_new_line, read_lines, DatasetType, parse_u32};
+use crate::data::common::{parse_new_line, parse_u32, read_lines, DatasetType};
 
 #[cfg(test)]
 mod data_day16 {
@@ -32,7 +38,10 @@ fn parse_line(input: &str) -> IResult<&str, (String, u32, Vec<String>)> {
     let (input, name) = take_while_m_n(2, 2, is_letter)(input)?;
     let (input, _) = tag(" has flow rate=")(input)?;
     let (input, flow) = parse_u32(input)?;
-    let (input, _) = alt((tag("; tunnel leads to valve "), tag("; tunnels lead to valves ")))(input)?;
+    let (input, _) = alt((
+        tag("; tunnel leads to valve "),
+        tag("; tunnels lead to valves "),
+    ))(input)?;
     let (input, paths) = many1(parse_path)(input)?;
     let (input, _) = parse_new_line(input)?;
     Ok((input, (String::from(name), flow, paths)))

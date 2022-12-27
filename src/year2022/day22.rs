@@ -255,13 +255,62 @@ mod day22 {
         let mut side_correlation_map = HashMap::new();
         let side_len = 50;
         let mappings = vec![
-            ((99, 50), dir_up, (LEFT, DOWN), (100, 49), dir_left, (UP, RIGHT)), //A
-            ((50, 99), dir_down, (RIGHT, UP), (49, 100), dir_right, (DOWN, LEFT)), //B
-            ((150, 49), dir_down, (RIGHT, UP), (149, 50), dir_right, (DOWN, LEFT)), //C
-            ((100, 99), dir_down, (RIGHT, LEFT), (49, 149), dir_up, (RIGHT, LEFT)), //D
-            ((100, 0), dir_down, (LEFT, RIGHT), (49, 50), dir_up, (LEFT, RIGHT)), //E
-            ((150, 0), dir_down, (LEFT, DOWN), (0, 50), dir_right, (UP, RIGHT)), //F
-            ((199, 0), dir_right, (DOWN, DOWN), (0, 100), dir_right, (UP, UP)), //G
+            (
+                (99, 50),
+                dir_up,
+                (LEFT, DOWN),
+                (100, 49),
+                dir_left,
+                (UP, RIGHT),
+            ), //A
+            (
+                (50, 99),
+                dir_down,
+                (RIGHT, UP),
+                (49, 100),
+                dir_right,
+                (DOWN, LEFT),
+            ), //B
+            (
+                (150, 49),
+                dir_down,
+                (RIGHT, UP),
+                (149, 50),
+                dir_right,
+                (DOWN, LEFT),
+            ), //C
+            (
+                (100, 99),
+                dir_down,
+                (RIGHT, LEFT),
+                (49, 149),
+                dir_up,
+                (RIGHT, LEFT),
+            ), //D
+            (
+                (100, 0),
+                dir_down,
+                (LEFT, RIGHT),
+                (49, 50),
+                dir_up,
+                (LEFT, RIGHT),
+            ), //E
+            (
+                (150, 0),
+                dir_down,
+                (LEFT, DOWN),
+                (0, 50),
+                dir_right,
+                (UP, RIGHT),
+            ), //F
+            (
+                (199, 0),
+                dir_right,
+                (DOWN, DOWN),
+                (0, 100),
+                dir_right,
+                (UP, UP),
+            ), //G
         ];
 
         for (p_a, d_a, o_a, p_b, d_b, o_b) in mappings {

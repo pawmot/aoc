@@ -1,11 +1,6 @@
 use anyhow::Result;
 
-use nom::{
-    bytes::complete::tag,
-    combinator::all_consuming,
-    multi::many0,
-    IResult,
-};
+use nom::{bytes::complete::tag, combinator::all_consuming, multi::many0, IResult};
 
 use crate::data::common::{parse_new_line, parse_usize, read_lines, DatasetType};
 
@@ -29,4 +24,3 @@ pub fn get_data(dataset_type: DatasetType) -> Result<Vec<(usize, usize, usize)>>
     let parsed = parse_data(&data).unwrap().1;
     Ok(parsed)
 }
-

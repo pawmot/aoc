@@ -13,7 +13,12 @@ mod day20 {
 
         for step in 0..n {
             //println!("{:?}", data);
-            let idx = indices.iter().enumerate().find(|(_, i)| **i == step).unwrap().0;
+            let idx = indices
+                .iter()
+                .enumerate()
+                .find(|(_, i)| **i == step)
+                .unwrap()
+                .0;
             let val = data[idx];
             let mut target_idx_i = ((idx as i64) + val) % ((n - 1) as i64);
             if target_idx_i < 0 {
@@ -70,7 +75,12 @@ mod day20 {
         for iter in 0..10 {
             println!("Iteration: {}", iter);
             for step in 0..n {
-                let idx = indices.iter().enumerate().find(|(_, i)| **i == step).unwrap().0;
+                let idx = indices
+                    .iter()
+                    .enumerate()
+                    .find(|(_, i)| **i == step)
+                    .unwrap()
+                    .0;
                 let val = data[idx];
                 let mut target_idx_i = ((idx as i64) + val) % ((n - 1) as i64);
                 if target_idx_i < 0 {

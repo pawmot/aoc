@@ -310,7 +310,13 @@ mod day17 {
         let cycle_total_height: usize = cycle.iter().cloned().sum();
 
         let iter_to_add = iter - 10000;
-        lines.len() + cycle_total_height * (iter_to_add / cycle_length) + cycle.iter().take(iter_to_add % cycle_length).cloned().sum::<usize>()
+        lines.len()
+            + cycle_total_height * (iter_to_add / cycle_length)
+            + cycle
+                .iter()
+                .take(iter_to_add % cycle_length)
+                .cloned()
+                .sum::<usize>()
     }
 
     #[test]

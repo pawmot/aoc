@@ -1,12 +1,8 @@
 use anyhow::Result;
 
-use nom::{
-    combinator::all_consuming,
-    multi::many0,
-    IResult,
-};
+use nom::{combinator::all_consuming, multi::many0, IResult};
 
-use crate::data::common::{parse_new_line, read_lines, DatasetType, parse_i64};
+use crate::data::common::{parse_i64, parse_new_line, read_lines, DatasetType};
 
 fn parse_line(input: &str) -> IResult<&str, i64> {
     let (input, n) = parse_i64(input)?;

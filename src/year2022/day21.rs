@@ -11,12 +11,12 @@ mod day21 {
 
     enum Frame<'a> {
         EnsureValueFor(&'a String),
-        FinishComputingValueFor(&'a String)
+        FinishComputingValueFor(&'a String),
     }
-    
+
     fn compute(root: String, data: &HashMap<String, Expression>) -> i64 {
-        use Frame::*;
         use Expression::*;
+        use Frame::*;
         use Operator::*;
         let mut results: HashMap<String, i64> = HashMap::new();
         let mut stack = vec![EnsureValueFor(&root)];
@@ -28,7 +28,7 @@ mod day21 {
                     match expr {
                         Num(n) => {
                             results.insert(name.clone(), *n);
-                        },
+                        }
                         Operation(l, _, r) => {
                             stack.push(FinishComputingValueFor(name));
                             stack.push(EnsureValueFor(r));
@@ -39,7 +39,7 @@ mod day21 {
                 FinishComputingValueFor(name) => {
                     let expr = &data[name];
                     match expr {
-                        Num(_) => {},
+                        Num(_) => {}
                         Operation(l, op, r) => {
                             let nl = results[l];
                             let nr = results[r];
@@ -47,7 +47,7 @@ mod day21 {
                                 Add => nl + nr,
                                 Sub => nl - nr,
                                 Mul => nl * nr,
-                                Div => nl / nr
+                                Div => nl / nr,
                             };
                             results.insert(name.clone(), result);
                         }
@@ -83,14 +83,14 @@ mod day21 {
     #[derive(PartialEq)]
     enum Ast {
         Ref(String),
-        Operation(String, Box<Ast>, Operator, Box<Ast>)
+        Operation(String, Box<Ast>, Operator, Box<Ast>),
     }
 
     impl Ast {
         fn contains_humn(&self) -> bool {
             match self {
                 Ast::Ref(name) => name == "humn",
-                Ast::Operation(_, l, _, r) => l.contains_humn() || r.contains_humn()
+                Ast::Operation(_, l, _, r) => l.contains_humn() || r.contains_humn(),
             }
         }
 
@@ -100,13 +100,11 @@ mod day21 {
 
         fn compute(&self, data: &HashMap<String, Expression>) -> i64 {
             match self {
-                Ast::Ref(n) => {
-                    match data[n] {
-                        Expression::Num(n) => n,
-                        _ => unreachable!()
-                    }
+                Ast::Ref(n) => match data[n] {
+                    Expression::Num(n) => n,
+                    _ => unreachable!(),
                 },
-                Ast::Operation(n, _, _, _) => compute(n.clone(), data)
+                Ast::Operation(n, _, _, _) => compute(n.clone(), data),
             }
         }
     }
@@ -121,7 +119,12 @@ mod day21 {
         let expr = &data[name];
         match expr {
             Num(_) => Box::new(Ast::Ref(name.clone())),
-            Operation(l, op, r) => Box::new(Ast::Operation(name.clone(), build_ast(l, data), *op, build_ast(r, data)))
+            Operation(l, op, r) => Box::new(Ast::Operation(
+                name.clone(),
+                build_ast(l, data),
+                *op,
+                build_ast(r, data),
+            )),
         }
     }
 
@@ -132,10 +135,8 @@ mod day21 {
         let data: HashMap<String, Expression> = data.into_iter().collect();
         let root_expr = &data[&root];
         let (left, right) = match root_expr {
-            Operation(l, _, r) => {
-                (l, r)
-            }
-            _ => unreachable!()
+            Operation(l, _, r) => (l, r),
+            _ => unreachable!(),
         };
 
         let mut left_ast = build_ast(left, &data);
@@ -149,47 +150,45 @@ mod day21 {
 
         while *left_ast != Ast::Ref(String::from("humn")) {
             match *left_ast {
-                Ast::Operation(_, l, op, r) => {
-                    match op {
-                        Add => {
-                            if l.contains_humn() {
-                                left_ast = l;
-                                right_val -= r.compute(&data);
-                            } else {
-                                left_ast = r;
-                                right_val -= l.compute(&data);
-                            }
-                        }
-                        Sub => {
-                            if l.contains_humn() {
-                                left_ast = l;
-                                right_val += r.compute(&data);
-                            } else {
-                                left_ast = r;
-                                right_val = l.compute(&data) - right_val;
-                            }
-                        }
-                        Mul => {
-                            if l.contains_humn() {
-                                left_ast = l;
-                                right_val /= r.compute(&data);
-                            } else {
-                                left_ast = r;
-                                right_val /= l.compute(&data);
-                            }
-                        }
-                        Div => {
-                            if l.contains_humn() {
-                                left_ast = l;
-                                right_val *= r.compute(&data);
-                            } else {
-                                left_ast = r;
-                                right_val = l.compute(&data) / right_val;
-                            }
+                Ast::Operation(_, l, op, r) => match op {
+                    Add => {
+                        if l.contains_humn() {
+                            left_ast = l;
+                            right_val -= r.compute(&data);
+                        } else {
+                            left_ast = r;
+                            right_val -= l.compute(&data);
                         }
                     }
-                }
-                Ast::Ref(_) => unreachable!()
+                    Sub => {
+                        if l.contains_humn() {
+                            left_ast = l;
+                            right_val += r.compute(&data);
+                        } else {
+                            left_ast = r;
+                            right_val = l.compute(&data) - right_val;
+                        }
+                    }
+                    Mul => {
+                        if l.contains_humn() {
+                            left_ast = l;
+                            right_val /= r.compute(&data);
+                        } else {
+                            left_ast = r;
+                            right_val /= l.compute(&data);
+                        }
+                    }
+                    Div => {
+                        if l.contains_humn() {
+                            left_ast = l;
+                            right_val *= r.compute(&data);
+                        } else {
+                            left_ast = r;
+                            right_val = l.compute(&data) / right_val;
+                        }
+                    }
+                },
+                Ast::Ref(_) => unreachable!(),
             }
         }
 

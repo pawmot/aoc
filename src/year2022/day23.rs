@@ -192,14 +192,17 @@ mod day23 {
         let (rrange, crange) = positions.iter().fold(
             ((i64::MAX, i64::MIN), (i64::MAX, i64::MIN)),
             |((rmin, rmax), (cmin, cmax)), Position { r, c }| {
-                ((min(rmin, *r), max(rmax, *r)), (min(cmin, *c), max(cmax, *c)))
+                (
+                    (min(rmin, *r), max(rmax, *r)),
+                    (min(cmin, *c), max(cmax, *c)),
+                )
             },
         );
 
         let mut result = 0;
 
-        for r in rrange.0 ..= rrange.1 {
-            for c in crange.0 ..= crange.1 {
+        for r in rrange.0..=rrange.1 {
+            for c in crange.0..=crange.1 {
                 if !positions.contains(&Position { r, c }) {
                     result += 1;
                 }

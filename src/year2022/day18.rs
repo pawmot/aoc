@@ -47,7 +47,7 @@ mod day18 {
         let max_y = data.iter().map(|(_, y, _)| y).copied().max().unwrap();
         let max_z = data.iter().map(|(_, _, z)| z).copied().max().unwrap();
 
-        let mut map = vec![vec![vec![false; max_z+1]; max_y+1]; max_x+1];
+        let mut map = vec![vec![vec![false; max_z + 1]; max_y + 1]; max_x + 1];
 
         for (x, y, z) in data {
             map[x][y][z] = true;
@@ -61,8 +61,7 @@ mod day18 {
                     if !map[x][y][z] {
                         continue;
                     }
-                    let neighbours_present = 
-                        get_neighbours((x, y, z), (max_x, max_y, max_z))
+                    let neighbours_present = get_neighbours((x, y, z), (max_x, max_y, max_z))
                         .into_iter()
                         .filter(|(nx, ny, nz)| map[*nx][*ny][*nz])
                         .count();
@@ -95,7 +94,7 @@ mod day18 {
         Rock,
         AirUnknownReachability,
         AirReachable,
-        AirUnreachable
+        AirUnreachable,
     }
 
     fn b(data: Vec<(usize, usize, usize)>) -> usize {
@@ -105,7 +104,7 @@ mod day18 {
         let max_y = data.iter().map(|(_, y, _)| y).copied().max().unwrap();
         let max_z = data.iter().map(|(_, _, z)| z).copied().max().unwrap();
 
-        let mut map = vec![vec![vec![AirUnknownReachability; max_z+1]; max_y+1]; max_x+1];
+        let mut map = vec![vec![vec![AirUnknownReachability; max_z + 1]; max_y + 1]; max_x + 1];
 
         for (x, y, z) in data {
             map[x][y][z] = Rock;
@@ -123,7 +122,7 @@ mod day18 {
                             if visited.contains(&pos) {
                                 continue;
                             }
-    
+
                             visited.insert(pos);
 
                             if cx == 0 || cy == 0 || cz == 0 {
@@ -136,8 +135,14 @@ mod day18 {
                                 .for_each(|n| queue.push_back(n));
                         }
 
-                        let block_state = if reachable { AirReachable } else {AirUnreachable};
-                        visited.into_iter().for_each(|(x, y, z)| map[x][y][z] = block_state);
+                        let block_state = if reachable {
+                            AirReachable
+                        } else {
+                            AirUnreachable
+                        };
+                        visited
+                            .into_iter()
+                            .for_each(|(x, y, z)| map[x][y][z] = block_state);
                     }
                 }
             }
@@ -149,10 +154,11 @@ mod day18 {
             for y in 0..=max_y {
                 for z in 0..=max_z {
                     if map[x][y][z] == Rock {
-                        let neighbours_present = 
-                            get_neighbours((x, y, z), (max_x, max_y, max_z))
+                        let neighbours_present = get_neighbours((x, y, z), (max_x, max_y, max_z))
                             .into_iter()
-                            .filter(|(nx, ny, nz)| map[*nx][*ny][*nz] == Rock || map[*nx][*ny][*nz] == AirUnreachable)
+                            .filter(|(nx, ny, nz)| {
+                                map[*nx][*ny][*nz] == Rock || map[*nx][*ny][*nz] == AirUnreachable
+                            })
                             .count();
                         result += 6 - neighbours_present;
                     }

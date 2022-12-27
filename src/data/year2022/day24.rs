@@ -9,7 +9,7 @@ pub enum BlizzardDirection {
     Up,
     Down,
     Left,
-    Right
+    Right,
 }
 
 pub type Blizzard = ((usize, usize), BlizzardDirection);
@@ -26,7 +26,7 @@ pub fn get_data(dataset_type: DatasetType) -> Result<(HashSet<Blizzard>, (usize,
                 'v' => Some(((r, c), BlizzardDirection::Down)),
                 '>' => Some(((r, c), BlizzardDirection::Right)),
                 '<' => Some(((r, c), BlizzardDirection::Left)),
-                _ => None
+                _ => None,
             };
 
             if maybe_blizzard.is_some() {
@@ -36,4 +36,3 @@ pub fn get_data(dataset_type: DatasetType) -> Result<(HashSet<Blizzard>, (usize,
     }
     Ok((blizzards, (h, w)))
 }
-

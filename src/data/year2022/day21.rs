@@ -15,12 +15,12 @@ pub enum Operator {
     Add,
     Sub,
     Mul,
-    Div
+    Div,
 }
 
 pub enum Expression {
     Num(i64),
-    Operation(String, Operator, String)
+    Operation(String, Operator, String),
 }
 
 fn parse_monkey_name(input: &str) -> IResult<&str, String> {
