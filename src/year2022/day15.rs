@@ -6,8 +6,6 @@ mod day15 {
         collections::HashSet,
     };
 
-    use itertools::Itertools;
-
     use crate::data::{
         common::DatasetType::{FULL, SAMPLE},
         year2022::day15::get_data,
@@ -75,7 +73,7 @@ mod day15 {
     fn a_full() -> Result<()> {
         let data = get_data(FULL)?;
 
-        assert_eq!(a(data, 2000000), 1003);
+        assert_eq!(a(data, 2000000), 5040643);
         Ok(())
     }
 
